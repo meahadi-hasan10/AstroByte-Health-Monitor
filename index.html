@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AstroByte Health Monitor — AI-assisted astronaut health monitoring prototype for NASA Space Apps Challenge 2026." />
+  <title>AstroByte Health Monitor</title>
+  <link rel="stylesheet" href="styles.css" />
+  <meta name="theme-color" content="#041022" />
+  <link rel="icon" type="image/png" href="assets/favicon.png" />
+</head>
+<body>
+  <div class="stars" aria-hidden="true"></div>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="AstroByte Health Monitor home">
+      <img src="assets/astrobyte-logo.png" alt="Team AstroByte logo" />
+      <div>
+        <strong>AstroByte</strong>
+        <span>Health Monitor</span>
+      </div>
+    </a>
+    <nav id="mainNav" aria-label="Primary navigation">
+      <a href="#dashboard">Dashboard</a>
+      <a href="#ai">AI Copilot</a>
+      <a href="#nasa-data">NASA Data</a>
+      <a href="#team">Team</a>
+    </nav>
+    <div class="topbar-actions"><button class="ghost small" id="themeBtn" type="button" aria-pressed="false">High contrast</button>
+    <button class="ghost mobile-menu" id="mobileMenuBtn" aria-controls="mainNav" aria-expanded="false" type="button">Menu ☰</button></div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <div class="eyebrow"><span class="live-dot"></span> NASA Space Apps Challenge 2026 · Team AstroByte</div>
+        <h1>Understand astronaut health <span>before small changes become big risks.</span></h1>
+        <p>
+          AstroByte Health Monitor is an AI-assisted, web-based decision-support prototype that combines simulated crew vitals, 
+          environmental radiation context, trend analysis, and clear risk alerts to support safer long-duration space missions.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="#dashboard">Launch dashboard</a>
+          <button class="button secondary" id="tourBtn" type="button">▶ Run risk demo</button>
+        </div>
+        <div class="hero-note">
+          <span class="dot"></span>
+          For decision-support purposes only. Not a medical device or diagnostic system.
+        </div>
+      </div>
+      <div class="hero-orbit" aria-label="Animated conceptual planet with orbit paths and dynamic crew indicators">
+        <div class="orbit-halo" aria-hidden="true"></div>
+        <div class="orbit-ring orbit-one"></div>
+        <div class="orbit-ring orbit-two"></div>
+        <div class="orbital-particle" aria-hidden="true"></div>
+        <div class="planet">
+          <div class="planet-atmosphere"></div>
+          <div class="planet-glow"></div>
+          <div class="planet-grid"></div>
+        </div>
+        <div class="floating-card fc-one"><b>HR</b><span id="heroHr">72</span><small>bpm</small></div>
+        <div class="floating-card fc-two"><b>SpO₂</b><span id="heroSpo2">98</span><small>%</small></div>
+        <div class="floating-card fc-three"><b>Risk</b><span id="heroRisk">18</span><small>/100</small></div>
+      </div>
+    </section>
+
+    <section class="section" id="dashboard">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Mission control view</span>
+          <h2>Crew health dashboard</h2>
+        </div>
+        <div class="mission-meta">
+          <span>Mission Day <b id="missionDay">142</b></span>
+          <span class="status-pill good" id="overallStatus">Stable</span>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <article class="card vitals-panel">
+          <div class="card-title-row">
+            <div>
+              <h3>Simulated crew telemetry</h3>
+              <p>Synthetic demo vitals for prototype testing.</p>
+            </div>
+            <button class="ghost small" id="randomizeBtn" type="button">Simulate update</button>
+          </div>
+
+          <div class="vital-grid">
+            <div class="vital-card">
+              <span class="vital-label">Heart rate</span>
+              <div><strong id="hrValue">72</strong><small>bpm</small></div>
+              <span class="mini-trend good">Normal range</span>
+            </div>
+            <div class="vital-card">
+              <span class="vital-label">SpO₂</span>
+              <div><strong id="spo2Value">98</strong><small>%</small></div>
+              <span class="mini-trend good">Oxygen stable</span>
+            </div>
+            <div class="vital-card">
+              <span class="vital-label">Temperature</span>
+              <div><strong id="tempValue">36.6</strong><small>°C</small></div>
+              <span class="mini-trend good">Baseline</span>
+            </div>
+            <div class="vital-card">
+              <span class="vital-label">Sleep</span>
+              <div><strong id="sleepValue">7.1</strong><small>hrs</small></div>
+              <span class="mini-trend" id="sleepTrend">Adequate</span>
+            </div>
+            <div class="vital-card">
+              <span class="vital-label">Fatigue index</span>
+              <div><strong id="fatigueValue">28</strong><small>/100</small></div>
+              <span class="mini-trend" id="fatigueTrend">Low</span>
+            </div>
+            <div class="vital-card">
+              <span class="vital-label">Radiation context</span>
+              <div><strong id="radiationValue">1.4</strong><small>µGy/h</small></div>
+              <span class="mini-trend" id="radiationTrend">Demo profile</span>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <div class="chart-header">
+              <div>
+                <h4>Health trend preview</h4>
+                <span>Illustrative projection • not observed 24-hour measurements</span>
+              </div>
+              <div class="legend"><i></i> Health index</div>
+            </div>
+            <canvas id="trendChart" width="900" height="260" aria-label="Health trend chart"></canvas>
+          </div>
+        </article>
+
+        <aside class="card risk-panel">
+          <h3>Mission readiness</h3>
+          <p>Explainable score based on current indicators.</p>
+          <div class="risk-ring" id="riskRing">
+            <div class="risk-inner">
+              <strong id="riskScore">18</strong>
+              <span>risk / 100</span>
+            </div>
+          </div>
+          <div class="risk-bars" id="riskBars"></div>
+          <div class="alert-box" id="alertBox">
+            <strong>No critical alerts</strong>
+            <span>Continue routine monitoring.</span>
+          </div>
+          <div class="analysis-inline" id="analysisPanel" hidden aria-live="polite"><b>Detailed health analysis</b><p id="analysisText"></p><small>Source: <span id="insightSource">Local heuristic engine</span></small></div>
+          <button class="button full" id="analyzeBtn" type="button">Analyze current health</button>
+          <div class="risk-footnote">Illustrative heuristic index — not clinically validated. Radiation thresholds are demonstration settings.</div>
+        </aside>
+      </div>
+
+      <div class="scenario-strip card">
+        <div><span class="eyebrow">Scenario lab</span><h3>Test five mission situations</h3><p>Preset combinations make changes easy to demonstrate. Every value is synthetic.</p></div>
+        <div class="scenario-buttons" role="group" aria-label="Simulated mission scenario">
+          <button class="scenario-btn is-active" aria-pressed="true" data-scenario="nominal" type="button">Nominal</button>
+          <button class="scenario-btn" aria-pressed="false" data-scenario="fatigue" type="button">Fatigue</button>
+          <button class="scenario-btn" aria-pressed="false" data-scenario="oxygen" type="button">Low oxygen</button>
+          <button class="scenario-btn" aria-pressed="false" data-scenario="radiation" type="button">Radiation</button>
+          <button class="scenario-btn" aria-pressed="false" data-scenario="combined" type="button">Multi-signal</button>
+        </div>
+      </div>
+      <div class="simulator card">
+        <div>
+          <span class="eyebrow">Interactive prototype</span>
+          <h3>Change the telemetry and watch the system respond</h3>
+        </div>
+        <div class="simulator-controls"><button class="ghost small" id="resetBtn" type="button">↺ Reset baseline</button><button class="ghost small" id="exportReportBtn" type="button">↓ Export health report (JSON)</button></div>
+        <div class="slider-grid">
+          <label>Heart rate <output id="hrOut">72</output><input id="hrSlider" type="range" min="45" max="140" value="72" /></label>
+          <label>SpO₂ <output id="spo2Out">98</output><input id="spo2Slider" type="range" min="85" max="100" value="98" /></label>
+          <label>Temperature <output id="tempOut">36.6</output><input id="tempSlider" type="range" min="34" max="40" value="36.6" step="0.1" /></label>
+          <label>Sleep hours <output id="sleepOut">7.1</output><input id="sleepSlider" type="range" min="2" max="10" value="7.1" step="0.1" /></label>
+          <label>Fatigue index <output id="fatigueOut">28</output><input id="fatigueSlider" type="range" min="0" max="100" value="28" /></label>
+          <label>Radiation <output id="radOut">1.4</output><input id="radSlider" type="range" min="0" max="12" value="1.4" step="0.1" /></label>
+        </div>
+      </div>
+      <article class="history card" id="session-history">
+        <div class="card-title-row"><div><span class="eyebrow">Session activity</span><h3>Scenario history</h3><p id="historyCount">0 session snapshots</p></div>
+          <div class="history-actions"><button class="ghost small" id="exportCsvBtn" type="button">↓ Export CSV</button><button class="ghost small" id="clearHistoryBtn" type="button">Clear history</button></div>
+        </div>
+        <div class="history-list" id="historyList" aria-live="polite"></div>
+        <p class="small-disclaimer" id="lastComputed">Updated from synthetic telemetry</p>
+      </article>
+    </section>
+
+    <section class="section split" id="ai">
+      <div class="section-copy">
+        <span class="eyebrow">AI-assisted decision support</span>
+        <h2>AstroAI Health Copilot</h2>
+        <p>
+          The copilot turns multiple signals into a concise explanation: what changed, why it matters, and what to monitor next.
+          If an OpenAI API key is configured in the optional backend, the same panel can generate an LLM explanation. Without a key,
+          it transparently uses the local explainable risk engine.
+        </p>
+        <ul class="check-list">
+          <li>Summarizes telemetry without diagnosing disease</li>
+          <li>Highlights abnormal combinations, not just single values</li>
+          <li>Shows the reason behind each warning</li>
+          <li>Keeps a safe local fallback for offline mission scenarios</li>
+        </ul>
+      </div>
+      <article class="card ai-card">
+        <div class="ai-header">
+          <div class="ai-avatar">AI</div>
+          <div><strong>AstroAI</strong><span id="aiMode">Rule-based health insight</span></div>
+          <span class="status-dot"></span>
+        </div>
+        <div class="ai-message" id="aiMessage">
+          Select a scenario and press Generate health insight to review current synthetic indicators.
+        </div>
+        <div class="ai-actions">
+          <button class="button" id="aiSummaryBtn" type="button">Generate health insight</button>
+          <button class="ghost" id="copyInsightBtn" type="button">Copy insight</button>
+        </div>
+        <div class="disclosure">AI output is decision support only and must be reviewed by qualified mission medical personnel.</div>
+      </article>
+    </section>
+
+    <section class="section" id="nasa-data">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">NASA data integration</span>
+          <h2>Environmental context from NASA OSDR / RadLab</h2>
+        </div>
+        <button class="button secondary" id="nasaBtn" type="button">Query historical NASA data</button>
+      </div>
+
+      <div class="data-grid">
+        <article class="card source-card">
+          <span class="source-badge">NASA OSDR</span>
+          <h3>Open Science Data Repository</h3>
+          <p>Space-life-science data covering physiological, behavioral, biomedical and environmental telemetry research.</p>
+          <a href="https://science.nasa.gov/biological-physical/data/osdr/" target="_blank" rel="noreferrer">Explore OSDR ↗</a>
+        </article>
+        <article class="card source-card">
+          <span class="source-badge">NASA RadLab</span>
+          <h3>Radiation telemetry API</h3>
+          <p>Programmatic access to space radiation readings such as absorbed dose rate and particle flux from multiple instruments.</p>
+          <a href="https://visualization.osdr.nasa.gov/radlab/gui/data-api/" target="_blank" rel="noreferrer">RadLab API docs ↗</a>
+        </article>
+        <article class="card source-card live-card">
+          <span class="source-badge live">Integration status</span>
+          <h3 id="nasaStatusTitle">No NASA API request made yet</h3>
+          <p id="nasaStatusText">The dashboard uses synthetic crew readings. With the optional Flask backend, query a historical ISS/DosTel sample from NASA RadLab. Historical environmental data is never labeled as current crew health telemetry.</p>
+          <div class="mini-code">Source: NASA OSDR RadLab · Historical ISS radiation telemetry</div>
+          <div class="nasa-chart-wrap" id="nasaChartWrap" hidden><span>Historical NASA absorbed dose rate · µGy/h (sampled records only)</span><canvas id="nasaChart" aria-label="Historical NASA radiation dose rate visualization"></canvas></div>
+          <pre class="nasa-response" id="nasaResponse" hidden></pre>
+        </article>
+      </div>
+
+      <div class="method-card card">
+        <div>
+          <h3>Why combine crew vitals + environmental context?</h3>
+          <p>
+            A single vital sign can look normal while the mission environment is changing. AstroByte combines astronaut-facing indicators with environmental context so the user can see trends and possible risk combinations in one place.
+          </p>
+        </div>
+        <div class="flow">
+          <span>Wearable / crew vitals</span><b>+</b><span>NASA radiation context</span><b>→</b><span>Risk & trend engine</span><b>→</b><span>Clear action-oriented insight</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="team">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Team AstroByte</span>
+          <h2>Five roles, one mission</h2>
+        </div>
+      </div>
+      <p class="team-intro">A multidisciplinary team of five working across research, engineering, user experience design, and communication.</p>
+      <div class="team-grid">
+        <article class="team-card lead"><span>TL</span><h3>Md. Meahadi Hasan</h3><p>Team Leader · AI & Full-Stack Developer</p></article>
+        <article class="team-card"><span>FE</span><h3>Md. Shakil Ahmmed Moni</h3><p>Frontend Developer</p></article>
+        <article class="team-card"><span>RS</span><h3>Suraiya Akter</h3><p>Researcher</p></article>
+        <article class="team-card"><span>UX</span><h3>Md. Sohanur Rahman</h3><p>Designer</p></article>
+        <article class="team-card"><span>DW</span><h3>Khandakar Jarin Shova</h3><p>Documentation & Script Writer</p></article>
+      </div>
+    </section>
+
+    <section class="section closing">
+      <img src="assets/astrobyte-logo.png" alt="AstroByte emblem" />
+      <div>
+        <span class="eyebrow">Project concept</span>
+        <h2>Supporting safer, more autonomous human space exploration.</h2>
+        <p>Developed by Team AstroByte for the NASA Space Apps Challenge 2026.</p>
+      </div>
+      <a class="button" href="#dashboard">Open dashboard</a>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2026 Team AstroByte · AstroByte Health Monitor</span>
+    <span>Hackathon prototype. Not affiliated with or endorsed by NASA.</span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
