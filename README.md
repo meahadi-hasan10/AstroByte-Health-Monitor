@@ -2,7 +2,7 @@
 
 **An AI-assisted web prototype for astronaut health awareness and decision support**
 
-**NASA International Space Apps Challenge 2026**  
+**NASA Space Apps Challenge 2026**  
 **Challenge:** Create Health Monitoring Software for Astronauts on Space Missions  
 **Team:** Team AstroByte — Rajshahi, Bangladesh  
 **Status:** Interactive prescreening prototype; not a medical device or clinically validated system.
@@ -103,7 +103,7 @@ This is a **functional demonstration prototype**, not a deployed astronaut monit
 
 | Team member | Role |
 | --- | --- |
-| **Md. Meahadi Hasan** | Team Leader · AI & Full-Stack Developer |
+| **Md. Meahadi Hasan** | Team Leader • AI & Full-Stack Developer |
 | **Md. Shakil Ahmmed Moni** | Frontend Developer |
 | **Suraiya Akter** | Researcher |
 | **Md. Sohanur Rahman** | Designer |
