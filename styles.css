@@ -1624,6 +1624,13 @@ button:disabled {
   display: block;
 }
 
+@media (min-width: 981px) {
+  #nasa-data .nasa-chart-wrap canvas {
+    margin-top: 35px;
+  }
+}
+
+
 .nasa-summary {
   margin-top: 14px;
   padding: 16px;
@@ -1777,7 +1784,7 @@ button:disabled {
 
     #nasa-data .live-card > .nasa-chart-wrap {
         grid-column: 1;
-        margin-top: 18px;
+        margin-top: 4px;
         min-width: 0;
     }
 
