@@ -1600,6 +1600,7 @@ button:disabled {
     transition: none!important;
   }
 }
+
 .nasa-chart-wrap {
   margin-top: 14px;
   border: 1px solid rgba(70,224,202,.25);
@@ -1773,11 +1774,13 @@ button:disabled {
         margin: 0;
     }
 
+
     #nasa-data .live-card > .nasa-chart-wrap {
         grid-column: 1;
-        margin-top: 4px;
+        margin-top: 18px;
         min-width: 0;
     }
+
 
     #nasa-data .live-card > #nasaResponse {
         grid-column: 2;
