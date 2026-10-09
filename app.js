@@ -225,17 +225,42 @@
       };
     }
 
-  function drawNasaSeries(points){
-    const canvas=$('nasaChart'),width=500,height=155,scale=Math.min(window.devicePixelRatio||1,2);
-    canvas.width=width*scale;canvas.height=height*scale;const ctx=canvas.getContext('2d');
-    ctx.setTransform(scale,0,0,scale,0,0);ctx.clearRect(0,0,width,height);
-    const numbers=points.map(p=>Number(p.dose_rate_uGy_h));const lo=Math.min(...numbers),hi=Math.max(...numbers),span=Math.max(.0001,hi-lo);
-    const pad=20,x=i=>pad+i*(width-2*pad)/Math.max(1,points.length-1),y=n=>height-pad-(n-lo)/span*(height-2*pad);
-    ctx.strokeStyle='rgba(158,195,230,.12)';ctx.lineWidth=1;
-    for(let i=1;i<=3;i++){const row=height/4*i;ctx.beginPath();ctx.moveTo(pad,row);ctx.lineTo(width-pad,row);ctx.stroke();}
-    ctx.strokeStyle='#56e5cc';ctx.lineWidth=3;ctx.beginPath();numbers.forEach((n,i)=>i?ctx.lineTo(x(i),y(n)):ctx.moveTo(x(i),y(n)));ctx.stroke();
-    ctx.fillStyle='#b1cbe2';ctx.font='11px system-ui';ctx.fillText(`${lo.toFixed(2)}–${hi.toFixed(2)} µGy/h · ${numbers.length} historical samples`,16,13);
-  }
+    function drawNasaSeries(points) {
+        const canvas = $('nasaChart');
+        const width = 500, height = 155;
+        const scale = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = width * scale;
+        canvas.height = height * scale;
+        const ctx = canvas.getContext('2d');
+        ctx.setTransform(scale, 0, 0, scale, 0, 0);
+        ctx.clearRect(0, 0, width, height);
+        const numbers = points.map(p => Number(p.dose_rate_uGy_h));
+        const lo = Math.min(...numbers);
+        const hi = Math.max(...numbers);
+        const span = Math.max(0.0001, hi - lo);
+        const pad = 20;
+        const x = i => pad + i * (width - 2 * pad) / Math.max(1, points.length - 1);
+        const y = n => height - pad - (n - lo) / span * (height - 2 * pad);
+        ctx.strokeStyle = 'rgba(158,195,230,.12)';
+        ctx.lineWidth = 1;
+        for (let i = 1; i <= 3; i++) {
+            const row = height / 4 * i;
+            ctx.beginPath();
+            ctx.moveTo(pad, row);
+            ctx.lineTo(width - pad, row);
+            ctx.stroke();
+        }
+        ctx.strokeStyle = '#56e5cc';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        numbers.forEach((n, i) =>
+            i ? ctx.lineTo(x(i), y(n)) : ctx.moveTo(x(i), y(n))
+        );
+        ctx.stroke();
+        $('nasaChartMeta').textContent =
+            `${lo.toFixed(2)}–${hi.toFixed(2)} µGy/h · ${numbers.length} historical samples`;
+    }
+
   async function loadNasa(){
     const btn=$('nasaBtn');btn.disabled=true;btn.textContent='Checking NASA…';
     try{
