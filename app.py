@@ -122,11 +122,6 @@ def extract_records(payload):
 
 @app.get('/api/nasa/radiation')
 def nasa_radiation():
-    """Historical ISS/DosTel window per the official NASA RadLab Data API example.
-
-    The response intentionally sends just a count and one sample record, never
-    asserts real-time crew telemetry or mixes this with simulated health input.
-    """
     try:
         r=requests.get(RADLAB_URL,timeout=14,headers={'Accept':'application/json'})
         r.raise_for_status()
@@ -137,19 +132,25 @@ def nasa_radiation():
         sample=records[0]
         if isinstance(sample,dict): sample={str(k):v for k,v in list(sample.items())[:12]}
         elif isinstance(sample,list): sample=sample[:12]
-        # Limited, separately-labelled historical series for NASA visualization.
-        # Never use these readings as simulated astronaut patient measurements.
         series=[]
         stride=max(1,math.ceil(len(records)/48))
         for row in records[::stride]:
-            if not isinstance(row,dict): continue
-            dose=row.get('absorbed_dose_rate')
+            if isinstance(row, dict):
+                timestamp = row.get('timestamp')
+                dose = row.get('absorbed_dose_rate')
+            elif isinstance(row, (list, tuple)) and len(row) >= 3:
+                timestamp = row[0]
+                dose = row[2]
+            else:
+                continue
             try:
-                value=float(dose)
-                if math.isfinite(value) and value>=0:
-                    series.append({'timestamp':str(row.get('timestamp',''))[:40],
-                                   'dose_rate_uGy_h':round(value,5)})
-            except (TypeError,ValueError):
+                value = float(dose)
+                if math.isfinite(value) and value >= 0:
+                    series.append({
+                        'timestamp': str(timestamp or '')[:40],
+                        'dose_rate_uGy_h': round(value, 5)
+                    })
+            except (TypeError, ValueError):
                 continue
         return jsonify(ok=True,source='NASA OSDR RadLab',source_url=RADLAB_URL,
                        period='2022-04-01T23:00 through 2022-04-02T01:05',
