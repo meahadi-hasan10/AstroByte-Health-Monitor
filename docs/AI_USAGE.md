@@ -7,6 +7,6 @@
 
 - **Health Analysis:** `engine.js` uses transparent, rule-based scoring and explanations with synthetic inputs. It is not a trained medical AI model.
 
-- **Optional AI Insights:** `app.py` supports non-diagnostic summaries through the OpenAI API when a server-side `OPENAI_API_KEY` is configured. Otherwise, local rule-based explanations are used. The implemented instructions are available in `app.py`.
+- **Optional AI Insights:** The deployed prototype currently provides rule-based health explanations (`mode: local`). The Flask backend (`app.py`) also supports non-diagnostic summaries through the OpenAI API when a server-side `OPENAI_API_KEY` is configured. The implemented AI instructions are available in `app.py`.
 
 **Disclosure:** AI-generated media used in our prescreening video is credited in the video's end credits. This prototype is intended for demonstration and decision support, not medical diagnosis.
