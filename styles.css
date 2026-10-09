@@ -1817,3 +1817,31 @@ button:disabled {
         margin-top: 14px;
     }
 }
+
+    #nasa-data .nasa-chart-labels span {
+        display: block;
+        margin: 0 0 5px;
+        font-size: 10px;
+        line-height: 1.4;
+        color: #96c6bc;
+    }
+
+    #nasa-data .nasa-chart-labels span:last-child {
+        margin-bottom: 0;
+        font-size: 11px;
+        color: #b1cbe2;
+    }
+
+@media (min-width: 981px) {
+
+    #nasa-data .nasa-chart-wrap {
+        position: relative;
+    }
+
+    #nasa-data .nasa-chart-labels {
+        position: absolute;
+        top: 15px;
+        left: 12px;
+        right: 12px;
+    }
+}
