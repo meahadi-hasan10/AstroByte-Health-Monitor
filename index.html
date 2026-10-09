@@ -244,11 +244,16 @@
           <h3 id="nasaStatusTitle">No NASA API request made yet</h3>
           <p id="nasaStatusText">The dashboard uses synthetic crew readings. With the optional Flask backend, query a historical ISS/DosTel sample from NASA RadLab. Historical environmental data is never labeled as current crew health telemetry.</p>
           <div class="mini-code">Source: NASA OSDR RadLab · Historical ISS radiation telemetry</div>
-          <div class="nasa-chart-wrap" id="nasaChartWrap" hidden><span>Historical NASA absorbed dose rate · µGy/h (sampled records only)</span><canvas id="nasaChart" aria-label="Historical NASA radiation dose rate visualization"></canvas></div>
+          <div class="nasa-chart-wrap" id="nasaChartWrap" hidden>
+              <div class="nasa-chart-labels">
+                  <span>Historical NASA absorbed dose rate · µGy/h (sampled records only)</span>
+                  <span id="nasaChartMeta"></span>
+              </div>
+              <canvas id="nasaChart" aria-label="Historical NASA radiation dose rate visualization"></canvas>
+          </div>
           <div class="nasa-summary" id="nasaResponse" hidden></div>
         </article>
       </div>
-
       <div class="method-card card">
         <div>
           <h3>Why combine crew vitals + environmental context?</h3>
