@@ -107,7 +107,6 @@ This is a **functional demonstration prototype**, not a deployed astronaut monit
 | **Md. Shakil Ahmmed Moni** | Frontend Developer |
 | **Suraiya Akter** | Researcher |
 | **Md. Sohanur Rahman** | Designer |
-| **Md. Sohanur Rahman** | Designer |
 | **Khandakar Jarin Shova** | Documentation & Script Writer |
 
 ## License and Attribution
