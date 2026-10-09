@@ -1709,3 +1709,94 @@ button:disabled {
   font-size: 11px;
   line-height: 1.6;
 }
+
+#nasa-data #nasaResponse {
+    max-height: none !important;
+    overflow: visible !important;
+    white-space: normal !important;
+    font-family: inherit !important;
+    min-width: 0;
+    height: auto;
+    align-self: start;
+}
+
+#nasa-data #nasaResponse[hidden] {
+    display: none !important;
+}
+
+#nasa-data .nasa-summary p {
+    min-height: 0;
+    margin: 10px 0 0;
+    line-height: 1.6;
+}
+
+@media (min-width: 981px) {
+
+    #nasa-data .data-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 18px;
+        align-items: stretch;
+    }
+
+    #nasa-data .live-card {
+        grid-column: 1 / -1;
+
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        column-gap: 18px;
+        row-gap: 12px;
+        align-content: start;
+    }
+
+    #nasa-data .live-card > .source-badge,
+    #nasa-data .live-card > h3,
+    #nasa-data .live-card > p,
+    #nasa-data .live-card > .mini-code {
+        grid-column: 1 / -1;
+    }
+
+    #nasa-data .live-card > .source-badge {
+        justify-self: start;
+    }
+
+    #nasa-data .live-card > h3 {
+        margin: 0;
+    }
+
+    #nasa-data .live-card > p {
+        margin: 0;
+        min-height: 0;
+    }
+
+    #nasa-data .live-card > .mini-code {
+        margin: 0;
+    }
+
+    #nasa-data .live-card > .nasa-chart-wrap {
+        grid-column: 1;
+        margin-top: 4px;
+        min-width: 0;
+    }
+
+    #nasa-data .live-card > #nasaResponse {
+        grid-column: 2;
+        margin-top: 4px;
+    }
+}
+
+@media (max-width: 980px) {
+
+    #nasa-data .data-grid {
+        grid-template-columns: 1fr;
+    }
+
+    #nasa-data .live-card {
+        display: block;
+    }
+
+    #nasa-data .live-card > .nasa-chart-wrap,
+    #nasa-data .live-card > #nasaResponse {
+        margin-top: 14px;
+    }
+}
