@@ -157,19 +157,74 @@
       nasa_data_last_retrieved:latestNasa};
     downloadFile('astrobyte-health-report.json',JSON.stringify(report,null,2),'application/json');showToast('Health snapshot downloaded');
   }
-  function renderNasaPreview(data){
-    $('nasaStatusTitle').textContent='NASA RadLab response received';
-    const count=Number(data.record_count)||0;
-    $('nasaStatusText').textContent=`Retrieved ${count} historical ISS radiation record${count===1?'':'s'} for the documented 2022 example window. These are environmental readings, not astronaut vital signs; they do not replace the simulated radiation slider.`;
-    const box=$('nasaResponse');box.hidden=false;
-    const sample=data.sample||null;
-    const metadata=`Records: ${count}\nInstrument: ISS / DosTel\nPeriod: 2022-04-01 23:00 to 2022-04-02 01:05 (historical)\nSource: NASA OSDR RadLab API`;
-    box.textContent=metadata+(sample?'\n\nSample record:\n'+JSON.stringify(sample,null,2):'\n\nNo sample record returned.');
-    const series=Array.isArray(data.radiation_series)?data.radiation_series.filter(p=>Number.isFinite(Number(p.dose_rate_uGy_h))):[];
-    $('nasaChartWrap').hidden=series.length<2;
-    if(series.length>=2)drawNasaSeries(series);
-    latestNasa={record_count:count,source_url:data.source_url||'',sample:sample,series_points:series.length,retrieved_at:new Date().toISOString()};
-  }
+
+    function renderNasaPreview(data) {
+      $('nasaStatusTitle').textContent = 'NASA RadLab response received';
+      const count = Number(data.record_count) || 0;
+      const sample = data.sample || null;
+      $('nasaStatusText').textContent =
+        `Retrieved ${count} historical ISS radiation records. ` +
+        'These are environmental measurements, not astronaut vital signs.';
+      const series = Array.isArray(data.radiation_series)
+        ? data.radiation_series.filter(p =>
+            Number.isFinite(Number(p.dose_rate_uGy_h)))
+        : [];
+      const box = $('nasaResponse');
+      box.innerHTML = `
+        <div class="nasa-summary-heading">
+          <strong>NASA Data Summary</strong>
+          <span>Historical data</span>
+        </div>
+        <div class="nasa-summary-grid">
+          <div>
+            <small>Records Retrieved</small>
+            <strong id="nasaRecordCount"></strong>
+          </div>
+          <div>
+            <small>Chart Samples</small>
+            <strong id="nasaSamplesCount"></strong>
+          </div>
+          <div>
+            <small>Spacecraft</small>
+            <strong>ISS</strong>
+          </div>
+          <div>
+            <small>Instrument</small>
+            <strong>DosTel</strong>
+          </div>
+        </div>
+        <div class="nasa-summary-period">
+          <small>Observation Period</small>
+          <span id="nasaObservationPeriod"></span>
+        </div>
+        <p class="nasa-summary-source">
+          Source: NASA OSDR RadLab API
+        </p>
+        <p class="nasa-summary-note">
+          Historical environmental measurements,
+          not live astronaut health data.
+        </p>
+      `;
+      $('nasaRecordCount').textContent = count.toLocaleString();
+      $('nasaSamplesCount').textContent = series.length.toLocaleString();
+      $('nasaObservationPeriod').textContent =
+        String(data.period || 'Historical sample')
+          .replaceAll('T', ' ')
+          .replace(' through ', ' – ');
+      box.hidden = false;
+      $('nasaChartWrap').hidden = series.length < 2;
+      if (series.length >= 2) {
+        drawNasaSeries(series);
+      }
+      latestNasa = {
+        record_count: count,
+        source_url: data.source_url || '',
+        sample: sample,
+        series_points: series.length,
+        retrieved_at: new Date().toISOString()
+      };
+    }
+
   function drawNasaSeries(points){
     const canvas=$('nasaChart'),width=500,height=155,scale=Math.min(window.devicePixelRatio||1,2);
     canvas.width=width*scale;canvas.height=height*scale;const ctx=canvas.getContext('2d');
